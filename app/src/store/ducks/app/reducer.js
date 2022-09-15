@@ -49,7 +49,7 @@ const localeReducer = (state = initialLocalState, action) => {
       //return state;
     }
     case SAVE_EVENT: {
-      return { ...state, events: [...state.events, action.event] };
+      return { ...state, events: [...state.events, action.payload] };
     }
     case CLEAR_USER: {
       return { ...state, currentUser: null };

@@ -11,6 +11,7 @@ export const setCurrentUserId = (id) => {
 };
 
 export const saveEvent = (event) => {
+  console.log("saveEvent : ", event);
   return { type: SAVE_EVENT, payload: event };
 };
 export const saveUser = (user) => {

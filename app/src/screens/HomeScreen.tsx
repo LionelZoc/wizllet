@@ -14,6 +14,7 @@ import { RootTabScreenProps } from "../types";
 export default function HomeScreen({ navigation }: RootTabScreenProps<"Home">) {
   let _notificationSubscription = useRef();
   const events = useSelector(getEvents);
+  console.log("events : ", events);
   const firebase = useFirebase();
   const responseListener = useRef();
   const firestore = useFirestore();
@@ -50,13 +51,22 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<"Home">) {
   }, [navigation]);
   return (
     <View style={styles.container}>
-      {events &&
+      <Text style={styles.titleScreen}>Your scan</Text>
+      {events.length > 0 ? (
         events.map((elem) => (
           <View style={styles.element} key={elem.id}>
-            <Text>{elem.description}</Text>
+            <View style={styles.logo}></View>
+            <View>
+              <Text style={styles.titleEvent}>{elem.title}</Text>
+              <Text>{elem.description}</Text>
+            </View>
           </View>
-        ))}
-      <Button variant="solid" style={styles.title} title="Scanner"></Button>
+        ))
+      ) : (
+        <View>
+          <Text style={styles.notScan}>No recorded conference</Text>
+        </View>
+      )}
     </View>
   );
 }
@@ -65,16 +75,35 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    padding: 20,
+  },
+  titleEvent: {
+    fontSize: 20,
   },
   title: {
     fontSize: 20,
     fontWeight: "bold",
   },
+  titleScreen: {
+    marginBottom: 20,
+    textAlign: "left",
+    width: "100%",
+    fontSize: 30,
+  },
+  logo: {
+    height: 64,
+    width: 64,
+    backgroundColor: "#dddddd",
+    borderRadius: 4,
+    marginRight: 10,
+  },
   element: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    padding: 10,
+    backgroundColor: "white",
+    marginBottom: 20,
+    borderRadius: 16,
+    alignItems: "center",
+    padding: 16,
     borderStyle: "solid",
     width: "100%",
     borderColor: "blue",

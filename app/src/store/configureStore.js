@@ -21,7 +21,7 @@ export default function configureStore(preloadedState) {
   const middlewares = [
     //apiCallsMiddleware,
     //loggerMiddleware,
-    sagaMiddleware
+    sagaMiddleware,
   ];
   const middlewareEnhancer = applyMiddleware(...middlewares);
 
@@ -36,19 +36,19 @@ export default function configureStore(preloadedState) {
     ? [
         middlewareEnhancer,
         reduxFirestore(firebase, get(env, "reduxFirestoreConfig")),
-        Reactotron.createEnhancer()
+        Reactotron.createEnhancer(),
       ]
     : [
         middlewareEnhancer,
-        reduxFirestore(firebase, get(env, "reduxFirestoreConfig"))
+        reduxFirestore(firebase, get(env, "reduxFirestoreConfig")),
       ];
 
   const composedEnhancers = composeWithDevTools(...enhancers);
 
-  if (__DEV__) {
-    console.log = Reactotron.log;
-    console.warn = Reactotron.log;
-  }
+  // if (__DEV__) {
+  //   console.log = Reactotron.log;
+  //   console.warn = Reactotron.log;
+  // }
   //const composedEnhancers = compose(...enhancers);
 
   // if (__DEV__) {
@@ -87,14 +87,14 @@ export default function configureStore(preloadedState) {
     //enableLogging: true,
     logErrors: true,
     //updateProfileOnLogin: false, //test
-    logListenerError: true //very important to see clearly firebase and firestore error in console
+    logListenerError: true, //very important to see clearly firebase and firestore error in console
   };
 
   const rrfProps = {
     firebase,
     config: rrfConfig,
     dispatch: store.dispatch,
-    createFirestoreInstance // <- needed if using firestore
+    createFirestoreInstance, // <- needed if using firestore
   };
 
   return { store, persistor, rrfProps };

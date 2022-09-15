@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Platform } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { isCodeValid } from "services";
 import isEqual from "lodash/isEqual";
-import { addEvent } from "applicationDucks/actions";
+import { saveEvent } from "applicationDucks/actions";
 // import { getDisplayUserQrCodeSelector } from "applicationDucks/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
@@ -45,7 +45,6 @@ const Scanner = ({ onClose = () => void 0 }) => {
   }, []);
   const handleBarCodeScanned = async ({ type, data }) => {
     setPrevious(data);
-    console.log("data", data);
     if (isEqual(data, previous)) return null;
     //// TODO: check if data is application data otherwise return error notice
     //save user id and fetch data
@@ -54,11 +53,10 @@ const Scanner = ({ onClose = () => void 0 }) => {
     try {
       const event = await isCodeValid(data);
       if (!event) {
-        alert(JSON.stringify(data));
         alert("This is not a valid QR code for this application");
       } else {
-        alert("event scanned");
-        dispatch(addEvent(event));
+        // alert("event scanned");
+        dispatch(saveEvent(event));
       }
     } catch (e) {
       Platform.OS === "web"
@@ -74,7 +72,7 @@ const Scanner = ({ onClose = () => void 0 }) => {
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
-  console.log("scanned", scanned);
+
   return (
     <View style={styles.container}>
       <View
