@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, Image, View } from "react-native";
 import { useSelector } from "react-redux";
 import { getEvents, getNetInfoState } from "applicationDucks/selectors";
 import * as Notifications from "expo-notifications";
@@ -55,7 +55,12 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<"Home">) {
       {events.length > 0 ? (
         events.map((elem) => (
           <View style={styles.element} key={elem.id}>
-            <View style={styles.logo}></View>
+            <Image
+              style={styles.logo}
+              source={{
+                uri: elem.logo,
+              }}
+            />
             <View>
               <Text style={styles.titleEvent}>{elem.title}</Text>
               <Text>{elem.description}</Text>
@@ -93,7 +98,6 @@ const styles = StyleSheet.create({
   logo: {
     height: 64,
     width: 64,
-    backgroundColor: "#dddddd",
     borderRadius: 4,
     marginRight: 10,
   },
