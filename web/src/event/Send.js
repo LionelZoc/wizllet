@@ -19,6 +19,7 @@ const List = ({ onClose }) => {
     title: "",
     date: "",
   });
+
   const events = useGetEvents();
   const setNotif = useSetNotif();
 
@@ -41,14 +42,15 @@ const List = ({ onClose }) => {
         </Select>
         <TextField label="Title" rows={4} fullWidth margin="dense" value={values.title} onChange={(event) => handleChange("title", event.target.value)} />
         <TextField label="Message" rows={4} fullWidth multiline margin="dense" value={values.message} onChange={(event) => handleChange("message", event.target.value)} />
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <TextField label="date" rows={4} fullWidth multiline margin="dense" value={values.date} onChange={(event) => handleChange("date", event.target.value)} />
+        {/*<LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateTimePicker
            label="Date"
            value={values.date}
            onChange={(value) => handleChange("date", value)}
            renderInput={(params) => <TextField fullWidth margin="dense" {...params} />}
          />
-        </LocalizationProvider>
+        </LocalizationProvider>*/}
         <Button variant="contained" onClick={() => onSubmit(values)}>Submit</Button>
     </Box>
   );

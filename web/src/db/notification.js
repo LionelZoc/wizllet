@@ -5,10 +5,10 @@ import dayjs from "dayjs";
 
 const useSetNotif = () => {
     const add = async (data = {}) => {
-        const now = dayjs();
+        //const now = dayjs();
         const obj = {
             body: data?.message || "",
-            date: data?.date ? now.diff(dayjs(data.date), "s") : "",
+            date: data?.date || "", //? now.diff(dayjs(data.date), "s") : "",
             title: data?.title || "",
             event: data?.event || ""
         }
