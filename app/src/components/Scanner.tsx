@@ -59,7 +59,7 @@ const Scanner = ({ onClose = () => void 0 }) => {
       if (!event) {
         alert("This is not a valid QR code for this application");
       } else {
-        dispatch(addEvent(event));
+        dispatch(saveEvent(event));
         navigation.navigate("Home");
       }
     } catch (e) {
