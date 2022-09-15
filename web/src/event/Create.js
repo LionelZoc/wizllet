@@ -29,6 +29,7 @@ const Create = ({ onClose }) => {
       <Button onClick={onClose}>Return</Button>
       <TextField label="Title" margin="dense" value={values.title} onChange={(event) => handleChange("title", event.target.value)} />
       <TextField label="Description" margin="dense" value={values.description} onChange={(event) => handleChange("description", event.target.value)} />
+      <TextField label="Logo" margin="dense" value={values.logo} onChange={(event) => handleChange("logo", event.target.value)} />
       <Button variant="contained" onClick={() => onSubmit(values)}>Submit</Button>
     </Box>
   );
