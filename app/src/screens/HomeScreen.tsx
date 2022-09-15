@@ -4,14 +4,21 @@ import { getEvents, getNetInfoState } from "applicationDucks/selectors";
 import * as Notifications from "expo-notifications";
 import { useFirebase, useFirestore } from "react-redux-firebase";
 import { useEffect, useRef, useState } from "react";
+import { useFirestoreConnect } from "react-redux-firebase";
 import {
   registerForPushNotificationsAsync,
   handleNotification,
+  schedulePushNotification,
 } from "helpers/notifications";
 
 import { RootTabScreenProps } from "../types";
 
 export default function HomeScreen({ navigation }: RootTabScreenProps<"Home">) {
+  useFirestoreConnect(["notifications"]); // sync todos collection from Firestore into redux
+  const handledNotif = useRef([]);
+  const notifications = useSelector(
+    (state) => state.firestore.ordered.notifications
+  );
   let _notificationSubscription = useRef();
   const events = useSelector(getEvents);
   console.log("events : ", events);
@@ -20,7 +27,16 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<"Home">) {
   const firestore = useFirestore();
   const netInfo = useSelector(getNetInfoState);
   const [expoPushToken, setExpoPushToken] = useState("");
-
+  useEffect(() => {
+    console.log("notifications", notifications);
+    notifications &&
+      notifications.map((not) => {
+        if (!handledNotif.current.includes(not?.id)) {
+          schedulePushNotification(not);
+          handledNotif.current.push(not?.id);
+        }
+      });
+  }, [notifications, events]);
   //const pushToken =  getUserPushTokenSelector(state, "pushToken")
   useEffect(() => {
     //if (netInfo.isFirebaseConnected) {
