@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Text, View, StyleSheet, Platform } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { isCodeValid } from "services";
@@ -14,6 +14,7 @@ const Scanner = ({ onClose = () => void 0 }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [previous, setPrevious] = useState(null);
   const navigation = useNavigation();
+  const scanning = useRef(null);
 
   const [scanned, setScanned] = useState(false);
   const dispatch = useDispatch();
@@ -45,18 +46,21 @@ const Scanner = ({ onClose = () => void 0 }) => {
   }, []);
   const handleBarCodeScanned = async ({ type, data }) => {
     setPrevious(data);
-    if (isEqual(data, previous)) return null;
+
+    if (isEqual(data, previous) || scanning.current === true) return null;
+    scanning.current = true;
     //// TODO: check if data is application data otherwise return error notice
     //save user id and fetch data
     //alert(`Bar code with type ${type} and data ${data} has been scanned!`);
     setScanned(true);
     try {
       const event = await isCodeValid(data);
+
       if (!event) {
         alert("This is not a valid QR code for this application");
       } else {
-        // alert("event scanned");
-        dispatch(saveEvent(event));
+        dispatch(addEvent(event));
+        navigation.navigate("Home");
       }
     } catch (e) {
       Platform.OS === "web"
@@ -64,6 +68,7 @@ const Scanner = ({ onClose = () => void 0 }) => {
         : Sentry.Native.captureException(e);
     }
     setScanned(false);
+    scanning.current = false;
   };
 
   if (hasPermission === null) {
