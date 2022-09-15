@@ -44,7 +44,8 @@ const List = ({ onClose }) => {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateTimePicker
            label="Date"
-           onChange={(value) => handleChange("date", value.valueOf())}
+           value={values.date}
+           onChange={(value) => handleChange("date", value)}
            renderInput={(params) => <TextField fullWidth margin="dense" {...params} />}
          />
         </LocalizationProvider>
