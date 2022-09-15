@@ -8,7 +8,7 @@ const useSetNotif = () => {
         //const now = dayjs();
         const obj = {
             body: data?.message || "",
-            date: data?.date || "", //? now.diff(dayjs(data.date), "s") : "",
+            date: data?.date ? parseInt(data.date) : "", //? now.diff(dayjs(data.date), "s") : "",
             title: data?.title || "",
             event: data?.event || ""
         }
