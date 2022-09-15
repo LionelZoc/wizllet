@@ -1,20 +1,20 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
 import { useSelector } from "react-redux";
 import { getEvents } from "applicationDucks/selectors";
-import EditScreenInfo from "../components/EditScreenInfo";
-import { Text, View } from "../components/Themed";
+
 import { RootTabScreenProps } from "../types";
 
 export default function HomeScreen({ navigation }: RootTabScreenProps<"Home">) {
   const events = useSelector(getEvents);
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      {events.map((elem) => (
-        <View style={styles.element} key={elem.id}>
-          <Text>{elem.description}</Text>
-        </View>
-      ))}
+      {events &&
+        events.map((elem) => (
+          <View style={styles.element} key={elem.id}>
+            <Text>{elem.description}</Text>
+          </View>
+        ))}
+      <Button variant="solid" style={styles.title} title="Scanner"></Button>
     </View>
   );
 }
