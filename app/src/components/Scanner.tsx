@@ -43,9 +43,9 @@ const Scanner = ({ onClose = () => void 0 }) => {
       }
     })();
   }, []);
-
   const handleBarCodeScanned = async ({ type, data }) => {
     setPrevious(data);
+    console.log("data", data);
     if (isEqual(data, previous)) return null;
     //// TODO: check if data is application data otherwise return error notice
     //save user id and fetch data
@@ -54,8 +54,10 @@ const Scanner = ({ onClose = () => void 0 }) => {
     try {
       const event = await isCodeValid(data);
       if (!event) {
+        alert(JSON.stringify(data));
         alert("This is not a valid QR code for this application");
       } else {
+        alert("event scanned");
         dispatch(addEvent(event));
       }
     } catch (e) {
@@ -72,14 +74,7 @@ const Scanner = ({ onClose = () => void 0 }) => {
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
-
-  if (false) {
-    return (
-      <View style={styles.displayContainer}>
-        <View style={styles.action}></View>
-      </View>
-    );
-  }
+  console.log("scanned", scanned);
   return (
     <View style={styles.container}>
       <View

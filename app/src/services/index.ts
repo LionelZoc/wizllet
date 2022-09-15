@@ -3,12 +3,15 @@ import { getFirestore } from "redux-firestore";
 import { Platform } from "react-native";
 import * as Sentry from "sentry-expo";
 
-export const isCodeValid = async (id) => {
+export const isCodeValid = async (data: string) => {
   const firestore = getFirestore();
+  const parsed = JSON.parse(data);
+  alert(data);
+  if (!parsed?.id) return null;
   try {
     const querySnapchot = await firestore
       .collection(database.events)
-      .where(firestore.FieldPath.documentId(), "==", id)
+      .where(firestore.FieldPath.documentId(), "==", parsed?.id)
       .get();
     //querySnapchot
     if (!querySnapchot.empty) {
