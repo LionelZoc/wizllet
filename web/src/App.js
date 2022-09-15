@@ -1,31 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+
 import logo from './logo.svg';
 import './App.css';
-import { useEventsManager } from "./db/events";
 
-function App() {
-  const events = useEventsManager();
+import Create from "./event/Create";
+import ListEvent from  "./event/List";
+
+const LIST = "list";
+const FORM = "form";
+
+const App = () => {
+  const [tab, setTab] = useState(null);
+
+  if (tab === LIST) return <ListEvent onClose={() => setTab(null)} />;
+  if (tab === FORM) return <Create onClose={() => setTab(null)} />;
 
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          {events.map(({title, description}) => (
-            <>
-              <h3>{title}</h3>
-              <div>{description}</div>
-            </>
-          ))}
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <List>
+          <ListItemButton onClick={() => setTab(LIST)}>
+           <ListItemText primary="List" />
+         </ListItemButton>
+         <ListItemButton onClick={() => setTab(FORM)}>
+          <ListItemText primary="Form" />
+        </ListItemButton>
+        </List>
       </header>
     </div>
   );
