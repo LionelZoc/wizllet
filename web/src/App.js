@@ -1,13 +1,22 @@
+import React, { useEffect } from "react";
 import logo from './logo.svg';
 import './App.css';
+import { useEventsManager } from "./db/events";
 
 function App() {
+  const events = useEventsManager();
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          {events.map(({title, description}) => (
+            <>
+              <h3>{title}</h3>
+              <div>{description}</div>
+            </>
+          ))}
         </p>
         <a
           className="App-link"
