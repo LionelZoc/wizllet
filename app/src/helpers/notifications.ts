@@ -128,13 +128,14 @@ export async function schedulePushNotification(notification) {
 
   //if (!isBefore) return null;
   //dispatch read notifications
+  console.log("notification", notification)
   await Notifications.scheduleNotificationAsync({
     content: {
       title: notification.title,
       body: notification.body,
       data: { data: "goes here" },
     },
-    trigger: { second: notification.date },
+    trigger: { seconds: notification.date },
   });
 }
 export async function allowsNotificationsAsync() {

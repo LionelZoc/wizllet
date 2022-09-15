@@ -31,6 +31,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<"Home">) {
     console.log("notifications", notifications);
     notifications &&
       notifications.map((not) => {
+        console.log("test",!handledNotif.current.includes(not?.id))
         if (!handledNotif.current.includes(not?.id)) {
           schedulePushNotification(not);
           handledNotif.current.push(not?.id);
